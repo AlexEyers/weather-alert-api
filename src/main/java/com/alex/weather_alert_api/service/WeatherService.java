@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service // Same as @Component but with clearer intent for the dev
-@RequiredArgsConstructor //
+@RequiredArgsConstructor // Inject WeatherApiClient
 public class WeatherService {
 
     private final WeatherApiClient weatherApiClient;
