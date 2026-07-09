@@ -19,7 +19,7 @@ public class WeatherController {
 
     // GET /api/weather/current?location=London
     @GetMapping("/current")
-    public ResponseEntity<CurrentWeatherResponse> getCurrentWeather(@RequestParam @NotBlank @Size(max = 100) String location) {
+    public ResponseEntity<CurrentWeatherResponse> getCurrentWeather(@RequestParam @NotBlank(message = "location is required") @Size(max = 100, message = "location must be 100 characters or fewer") String location) {
         // Return HTTP 200 OK with CurrentWeatherResponse as response body
         return ResponseEntity.ok(weatherService.getCurrentWeather(location));
     }
