@@ -29,6 +29,7 @@ public class WeatherControllerTest { // (@SpringBootTest is overkill and would s
     @MockitoBean
     private WeatherService weatherService;
 
+    // Tests that a valid request returns HTTP 200 with the expected weather JSON
     @Test
     void getCurrentWeatherReturnsWeatherResponse() throws Exception {
         // Fake what the service should return for London
@@ -56,5 +57,18 @@ public class WeatherControllerTest { // (@SpringBootTest is overkill and would s
                 .andExpect(jsonPath("$.feelsLikeC").value(23.0))
                 .andExpect(jsonPath("$.humidity").value(60))
                 .andExpect(jsonPath("$.condition").value("Partly Cloudy"));
+    }
+
+    // Tests that a request without the required location parameter returns HTTP 400
+    @Test
+    void getCurrentWeatherReturnsBadRequestWhenLocationIsMissing() throws Exception {
+        // Call the endpoint without ?locaton=
+        mockMvc.perform(get("/api/weather/current"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.timestamp").exists())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Required request parameter 'location' for method parameter type String is not present"))
+                .andExpect(jsonPath("$.path").value("/api/weather/current"));
     }
 }

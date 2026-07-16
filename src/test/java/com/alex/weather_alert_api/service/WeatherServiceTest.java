@@ -55,7 +55,7 @@ class WeatherServiceTest {
         assertThat(response.tempC()).isEqualTo(22.5);
         assertThat(response.feelsLikeC()).isEqualTo(23.0);
         assertThat(response.humidity()).isEqualTo(60);
-        assertThat(response.condition()).isEqualTo("Partly cloudy");
+        assertThat(response.condition()).isEqualTo("Partly Cloudy");
     }
 
     @Test
@@ -85,7 +85,7 @@ class WeatherServiceTest {
 
         // Fake condition section from WeatherAPI.com response
         WeatherApiCondition condition = new WeatherApiCondition();
-        condition.setText("Partly cloudy");
+        condition.setText("Partly Cloudy");
 
         // Fake current weather section from WeatherAPI.com response
         WeatherApiCurrent current = new WeatherApiCurrent();
