@@ -55,6 +55,6 @@ public class WeatherControllerTest { // (@SpringBootTest is overkill and would s
                 .andExpect(jsonPath("$.tempC").value(22.5))
                 .andExpect(jsonPath("$.feelsLikeC").value(23.0))
                 .andExpect(jsonPath("$.humidity").value(60))
-                .andExpect(jsonPath("$.condition").value("Partly cloudy"));
+                .andExpect(jsonPath("$.condition").value("Partly Cloudy"));
     }
 }
