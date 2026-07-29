@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: ${PORT:8081} # Check for environment variable called PORT, if exists use that value, else use 8081
 
 spring:
   datasource:
