@@ -8,12 +8,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.swing.*;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.containsString; // Passes as long as contains the String, does not need to be an exact match
 
 // Controller test for WeatherController using Spring MVC, MockMvc, Mockito and JUnit
 
@@ -69,6 +68,19 @@ public class WeatherControllerTest { // (@SpringBootTest is overkill and would s
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.error").value("Bad Request"))
                 .andExpect(jsonPath("$.message").value("Required request parameter 'location' for method parameter type String is not present"))
+                .andExpect(jsonPath("$.path").value("/api/weather/current"));
+    }
+
+    // Tests that @NotBlank validation message returns for a present-but-blank parameter
+    @Test
+    void getCurrentWeatherReturnsBadRequestWhenLocationIsBlank() throws Exception {
+        mockMvc.perform(get("/api/weather/current")
+                .param("location", ""))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.timestamp").exists())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value(containsString("location is required")))
                 .andExpect(jsonPath("$.path").value("/api/weather/current"));
     }
 }
